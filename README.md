@@ -1,3 +1,3 @@
 Roguelike game written in Typescript + ReactJS. Development in progress
 
-Try at react-rogue-ts.netlify.app
+Try at http://react-rogue-ts.netlify.app
