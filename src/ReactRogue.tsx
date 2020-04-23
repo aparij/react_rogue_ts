@@ -2,6 +2,7 @@ import React,{useRef, useEffect, useState} from 'react';
 import InputManager from './InputManager';
 import Data from './data';
 import Player from './Player';
+import World from './World';
 
 interface ReactRogue {
     width:number,
@@ -12,6 +13,7 @@ interface ReactRogue {
 const ReactRogue: React.SFC<ReactRogue>  = ({width, height, tilesize}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [player, setPlayer] = useState(new Player(1, 2, tilesize));
+    const [world, setWorld] = useState(new World(width, height, tilesize));
     let inputManager = new InputManager();
     const handleInput = (action:string, data:Data)=>{
         console.log(action,JSON.stringify(data));
@@ -33,6 +35,7 @@ const ReactRogue: React.SFC<ReactRogue>  = ({width, height, tilesize}) => {
         console.log('Draw to canvas');
         const ctx = canvasRef.current?.getContext('2d');
         ctx?.clearRect(0, 0, width * tilesize, width * tilesize);
+        world.draw(ctx);
         player.draw(ctx);
     });
     return (
