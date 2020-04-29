@@ -1,3 +1,5 @@
+import Data from './data';
+
 class Player {
     x:number;
     y:number;
@@ -9,9 +11,14 @@ class Player {
         this.size = size;
     }
 
-    move(dx:number, dy:number){
-        this.x += dx;
-        this.y += dy;
+    move(data:Data){
+        this.x += data.x;
+        this.y += data.y;
+    }
+    copyPlayer(){
+        let newPlayer = new Player(0,0,16);
+        Object.assign(newPlayer, this);
+        return newPlayer;
     }
     draw(context?: CanvasRenderingContext2D | null){
         if(context){

@@ -1,7 +1,6 @@
 import React,{useRef, useEffect, useState} from 'react';
 import InputManager from './InputManager';
 import Data from './data';
-import Player from './Player';
 import World from './World';
 
 interface ReactRogue {
@@ -12,15 +11,15 @@ interface ReactRogue {
 
 const ReactRogue: React.SFC<ReactRogue>  = ({width, height, tilesize}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [player, setPlayer] = useState(new Player(1, 2, tilesize));
+    //const [player, setPlayer] = useState(new Player(1, 2, tilesize));
     const [world, setWorld] = useState(new World(width, height, tilesize));
     let inputManager = new InputManager();
     const handleInput = (action:string, data:Data)=>{
         console.log(action,JSON.stringify(data));
-        let newPlayer = new Player(0, 0, tilesize);
-        Object.assign(newPlayer, player);
-        newPlayer.move(data.x, data.y);
-        setPlayer(newPlayer);
+        let newWorld = new World(width, height, tilesize);
+        Object.assign(newWorld, world);
+        newWorld.movePlayer(data);
+        setWorld(newWorld);
     }
     useEffect(() => {
         console.log('binding keys');
@@ -36,8 +35,15 @@ const ReactRogue: React.SFC<ReactRogue>  = ({width, height, tilesize}) => {
         const ctx = canvasRef.current?.getContext('2d');
         ctx?.clearRect(0, 0, width * tilesize, width * tilesize);
         world.draw(ctx);
-        player.draw(ctx);
     });
+    useEffect(()=>{
+        console.log("Create Map");
+        let newWorld = new World(width, height, tilesize);
+        Object.assign(newWorld, world);
+        newWorld.createCellularMap();
+        newWorld.moveToSpace(newWorld.player);
+        setWorld(newWorld);
+    },[]);
     return (
         <canvas 
             ref={canvasRef}
