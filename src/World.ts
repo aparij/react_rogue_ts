@@ -2,51 +2,56 @@
 import {Map} from 'rot-js';
 import Player from './Player';
 import Data from './data';
+import Entity from './Entity';
 class World {
     width: number;
     height: number;
     tilesize: number;
     worldmap: number[][];
-    entities: Player[];
+    entities: Entity[];
+    //player: Player;
 
     constructor(width:number, height:number, tilesize:number){
         this.width = width;
         this.height = height;
         this.tilesize = tilesize;
         this.worldmap = new Array(this.width);
-        this.entities = [new Player(0,0,16)]
+        this.entities = [new Player(0,0,16,{ascii: '@',name: 'Player'})]
         for (let x=0; x < width; x++){
             this.worldmap[x] = new Array(this.height);
         }
-        //this.createCellularMap();
     }
 
-    get player(){
+    get player(): Entity{
         return this.entities[0];
     }
 
     movePlayer(data:Data){
         let tempPlayer = this.player.copyPlayer();
         tempPlayer.move(data);
+        let entity = this.getEntityAtLocation(tempPlayer.x, tempPlayer.y);
+        if(entity){
+            console.log(entity);
+            entity.action('bump',this);
+        }
         if(this.isWall(tempPlayer.x, tempPlayer.y)){
             console.log("Player is blocked by wall")
         } else {
             this.player.move(data);
         }
     }
-    moveToSpace(entity:Player){
+    moveToSpace(entity:Entity){
         for(let x=entity.x;x<this.width;x++){
             for(let y=entity.y;y<this.height;y++){
                 if(this.worldmap[x][y]===0){
-                    this.player.x = x;
-                    this.player.y = y;
+                    entity.x = x;
+                    entity.y = y;
                     return;
                 }
             }
         }
-
-
     }
+
     isWall(x:number , y:number): boolean{
         return (
             this.worldmap[x] === undefined ||
@@ -54,6 +59,7 @@ class World {
             this.worldmap[x][y] === 1
         );
     }
+
     createCellularMap(){
         let map = new Map.Cellular(this.width, this.height/*, { 'connected': true }*/);
         map.randomize(0.5);
@@ -94,7 +100,18 @@ class World {
         }
     }
 
+    add(entity:Entity){
+        this.entities.push(entity);
 
+    }
+
+    remove(entity: Entity){
+        this.entities = this.entities.filter(e=> e !== entity)
+    }
+
+    getEntityAtLocation(x: number,y:number){
+        return this.entities.find(entity => entity.x === x && entity.y === y);
+    }
 }
 
 export default World;
