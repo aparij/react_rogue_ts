@@ -9,22 +9,30 @@ class World {
     tilesize: number;
     worldmap: number[][];
     entities: Entity[];
-    //player: Player;
+    player: Player;
 
     constructor(width:number, height:number, tilesize:number){
         this.width = width;
         this.height = height;
         this.tilesize = tilesize;
         this.worldmap = new Array(this.width);
-        this.entities = [new Player(0,0,16,{ascii: '@',name: 'Player'})]
+        this.entities = [];
+        this.player = new Player(0,0,16,
+             {
+                name: 'Player',
+                ascii: '@',
+                health: 10,
+                color: 'red',
+            }
+        )
         for (let x=0; x < width; x++){
             this.worldmap[x] = new Array(this.height);
         }
     }
 
-    get player(): Entity{
-        return this.entities[0];
-    }
+    // get player(): Entity{
+    //     return this.entities[0];
+    // }
 
     movePlayer(data:Data){
         let tempPlayer = this.player.copyPlayer();
@@ -84,6 +92,7 @@ class World {
                 }
             }
             this.entities.forEach(entity => entity.draw(context));
+            this.player.draw(context);
         }
     }
 

@@ -26,6 +26,7 @@ class Player extends Entity{
     }
     copyPlayer():Player {
         let newPlayer = new Player(0,0,16,this.attributes);
+        console.log(this.attributes);
         Object.assign(newPlayer, this);
         return newPlayer;
     }

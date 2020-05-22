@@ -1,4 +1,4 @@
-import React,{useRef, useEffect, useState} from 'react';
+import React,{useRef, useEffect, useState, Fragment} from 'react';
 import InputManager from './InputManager';
 import Data from './data';
 import World from './World';
@@ -50,13 +50,18 @@ const ReactRogue: React.SFC<ReactRogue>  = ({width, height, tilesize}) => {
     },[]);
 
     return (
-        <canvas 
-            ref={canvasRef}
-            width={width * tilesize} 
-            height={height * tilesize} 
-            style={{border: '1px solid black', background: 'darkgrey'}}>
+        <Fragment>
+            <canvas 
+                ref={canvasRef}
+                width={width * tilesize} 
+                height={height * tilesize} 
+                style={{border: '1px solid black', background: 'darkgrey'}}>
 
-        </canvas>
+            </canvas>
+            <ul>
+                {world.player.inventory.map((item, index) => <li key={index}>{item.attributes.name}</li>)}
+            </ul>
+        </Fragment>
     )
 }
 

@@ -33,22 +33,22 @@ class Entity {
     action(verb:string, world:World){
         console.log(`Verb: ${verb}`);
     }
-    copyPlayer(): Player {
-        const attributes: Attributes = {
-            ascii: '',
-            name: '',
-        }
-        return new Player(0,0,16, attributes )
-    };
+    // copyPlayer(): Player {
+    //     const attributes: Attributes = {
+    //         ascii: '',
+    //         name: '',
+    //     }
+    //     return new Player(0,0,16, attributes )
+    // };
 
     move(data:Data){
         this.x += data.x;
         this.y += data.y;
     }
 
-    add(item:Entity){
-        console.log("Added item in void");
-    }
+    // add(item:Entity){
+    //     console.log("Added item in void");
+    // }
     
 }
 
