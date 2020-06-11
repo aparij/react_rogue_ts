@@ -10,6 +10,7 @@ class World {
     worldmap: number[][];
     entities: Entity[];
     player: Player;
+    history: string[];
 
     constructor(width:number, height:number, tilesize:number){
         this.width = width;
@@ -28,6 +29,7 @@ class World {
         for (let x=0; x < width; x++){
             this.worldmap[x] = new Array(this.height);
         }
+        this.history = ['You are starting your adventure']
     }
 
     // get player(): Entity{
@@ -51,7 +53,7 @@ class World {
     moveToSpace(entity:Entity){
         for(let x=entity.x;x<this.width;x++){
             for(let y=entity.y;y<this.height;y++){
-                if(this.worldmap[x][y]===0){
+                if(this.worldmap[x][y]===0 && !this.getEntityAtLocation(x,y) ){
                     entity.x = x;
                     entity.y = y;
                     return;
@@ -88,7 +90,6 @@ class World {
             for (let x=0; x < this.width; x++){
                 for(let y=0; y<this.height; y++){
                     if(this.worldmap[x][y] === 1) this.drawWall(x, y, context);
-
                 }
             }
             this.entities.forEach(entity => entity.draw(context));
@@ -120,6 +121,14 @@ class World {
 
     getEntityAtLocation(x: number,y:number){
         return this.entities.find(entity => entity.x === x && entity.y === y);
+    }
+
+    addHistory(history_log:string){
+        this.history.push(history_log);
+        if(this.history.length >6 ) {
+            this.history.shift();
+        }
+
     }
 }
 

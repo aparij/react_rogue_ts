@@ -1,13 +1,16 @@
 interface Attributes {
-    color?: string;
+    color: string;
     ascii: string;
     offset?: Offset;
     name: string;
-    health?: number;
+    
+}
+interface ActorAttributes extends Attributes{
+    health: number;
 }
 
 interface Offset {
     x: number;
     y: number;
 }
-export default Attributes;
+export {Attributes, ActorAttributes}

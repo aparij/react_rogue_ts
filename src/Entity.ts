@@ -1,4 +1,4 @@
-import Attributes from './attributes';
+import {Attributes} from './attributes';
 import World from './World';
 import Player from './Player';
 import Data from './data';

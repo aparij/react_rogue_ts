@@ -1,26 +1,25 @@
 import Data from './data';
 import Entity from './Entity';
-import Attributes from './attributes';
+import {ActorAttributes} from './attributes';
 
 class Player extends Entity{
     inventory: Entity[]; 
-    attributes: Attributes = {
-        name: 'Player',
-        ascii: '@',
-        health: 10,
-        color: 'red',
-    }
+    attributes: ActorAttributes;
 
-    constructor(x:number, y:number, size:number, attributes:Attributes){
+    constructor(x:number, y:number, size:number, attributes:ActorAttributes){
         super(x,y,size,attributes);
         this.inventory = [];
-      
+        this.attributes = attributes;
     }
+
     add(item: Entity){
         this.inventory.push(item);
 
     }
     move(data:Data){
+        if(this.attributes.health <= 0){
+            return;
+        }
         this.x += data.x;
         this.y += data.y;
     }
